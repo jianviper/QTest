@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Qsh - Test{% endblock %}
+
+{% block page_content %}
+    <div class="page-header">
+        <h1>Welcome to the testing website.</h1>
+        <p>The local date and time is {{ moment(current_time).format('LLL') }}.</p>
+        <p>That was {{ moment(current_time).fromNow(refresh=True) }}</p>
+        <p>The local Ip address is {{ ip }}</p>
+    </div>
+    <div class="col-md-4">
+        <p>更新日志</p>
+		<p>2019-7-8 <br>1.新增门店APP支持选择仓库<br>2.优化请求，大幅提升速度<br>3.接口耗时统计bug修复</p>
+        <p>2019-5-17 <br>1.进销存支持选择仓库</p>
+		<p>2019-1-26 <br>1.新增数据可视化模块</p>
+        <p>2018-12-21 <br>1.修复并发测试结果显示问题</p>
+{#        <label style="width: 100%">更新日志#}
+{#            <textarea style="width: 100%">2018-12-21 修复并发测试结果显示问题</textarea>#}
+{#        </label>#}
+    </div>
+{% endblock %}

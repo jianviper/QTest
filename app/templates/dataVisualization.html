@@ -1,0 +1,67 @@
+{% extends "baseData.html" %}
+
+{% block title %}Data visual{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <script type="application/javascript" src={{ url_for('static',filename='js/config.js') }}></script>
+    <script type="application/javascript" src={{ url_for('static',filename='js/visual.js') }}></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
+{% endblock %}
+
+{#{% block scripts %}#}
+{#{% endblock %}#}
+
+{% block page_content %}
+    <div id="shaiXuan">
+        <div class="col-md-1" style="height: 200px;padding-left: 0;padding-right: 0;">
+            {#            {{ wtf.quick_form(form,id='dateForm') }}#}
+            {{ form.date_get.label }}{{ form.date_get }}
+            {{ form.date_step_get.label }}{{ form.date_step_get }}
+            <input type="submit" value="确定" class="btn-block" @click="initData()" style="left:auto">
+        </div>
+        <div class="col-md-11">
+{#            <center>#}
+                <svg id="id_svg" width="1440" height="850"></svg>
+                <link href="{{ url_for('static', filename='css/stylesheet.css') }}" rel="stylesheet">
+{#            </center>#}
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        new Vue({
+            el: '#shaiXuan',
+            data: {
+                selected: '1',
+                stepSelected: '%Y-%m-%d'
+            },
+            methods: {
+                initData: function () {
+                    var _this = this;
+                    var selecte = $("#date_get").val();
+                    var stepSelected = $("#date_step_get").val();
+                    //console.log(selecte, stepSelected);
+                    _this.$http.post('dataVisualization', {
+                        'dateSelected': selecte,
+                        'dateStep': stepSelected
+                    }).then(function (res) {
+                        $("#id_svg").empty();
+                        var data = res.body['mydata'];
+                        //console.log(data);
+                        try {
+                            //var data=[{"name": "李四","type": "战士","value": "61412","date": "01-02"},{"name": "王二麻子","type": "魔法师","value": "51243","date": "01-03"},{"name": "王二麻子","type": "魔法师","value": "41243","date": "01-01"},{"name": "张三","type": "魔法师","value": "32312","date": "01-03"},{"name": "张三","type": "魔法师","value": "22312","date": "01-02"},{"name": "李四","type": "战士","value": "21412","date": "01-01"},{"name": "张三","type": "魔法师","value": "12312","date": "01-01"},{"name": "李四","type": "战士","value": "11412","date": "01-03"},{"name": "王二麻子","type": "魔法师","value": "11243","date": "01-02"}];
+                            if(stepSelected==='%Y-%m-%d'){stepSelected='%Y-%m-%d天'}
+                            draw(data,stepSelected);
+                        } catch (error) {
+                            console.log(error);
+                        }
+                    }, function (res) {
+                        console.log(res.status);
+                    });
+                }
+            }
+        });
+    </script>
+{% endblock %}

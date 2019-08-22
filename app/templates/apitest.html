@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+    {{ super() }}
+    <script type="application/javascript" src="{{ url_for("static",filename="js/apitest.js") }}"></script>
+    <script type="application/javascript" src="{{ url_for("static",filename="js/jsencrypt.js") }}"></script>
+    <link rel="stylesheet" type="text/css" href={{ url_for("static",filename="css/apitest.css") }}>
+{% endblock %}
+
+{% block title %}Qsh - Api Test{% endblock %}
+
+{% block page_content %}
+    <div style="margin-top: 20px" class="row">
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
+        </div>
+        <div class="col-md-8">
+            <label>接口返回</label>
+            <input type="button" style="margin-left: 10px" onclick="clearData()" class="btn-info" value="清空"><br>
+            <div>
+            <textarea rows="33" style="width: 100%;border: 1px solid;border-radius: 5px;"
+                      placeholder="接口返回数据" id="reponse_data">{{ result }}</textarea>
+            </div>
+        </div>
+    </div>
+    <div id="floatLayerid" class="floatLayer"></div>
+    <div id="loading">
+        <img id="loading_img" src="{{ url_for("static",filename="img/5.gif") }}" class="img-responsive">
+    </div>
+{% endblock %}
